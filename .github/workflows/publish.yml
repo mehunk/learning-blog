@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -11,19 +10,26 @@ jobs:
       contents: read
       deployments: write
     name: Publish to Cloudflare Pages
+    strategy:
+      matrix:
+        node-version: [ 16 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Setup Node.js
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16
-          cache: npm
-      - run: npm ci
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
       - name: Build
-        run: npm run docs:build
+        run: pnpm run docs:build
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
