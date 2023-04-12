@@ -1,4 +1,8 @@
-on: [push]
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
 
 jobs:
   publish:
@@ -10,9 +14,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      # Run a build step here if your project requires
-
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm
+      - run: npm ci
+      - name: Build
+        run: npm run docs:build
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
@@ -20,5 +31,3 @@ jobs:
           accountId: c603b90c5fabd3b317c7a286478543ea
           projectName: learning-blog
           directory: .vitepress/dist
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
