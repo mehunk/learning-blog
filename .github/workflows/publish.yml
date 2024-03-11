@@ -10,21 +10,18 @@ jobs:
       contents: read
       deployments: write
     name: Publish to Cloudflare Pages
-    strategy:
-      matrix:
-        node-version: [ 16 ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         with:
-          version: 7
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+          version: 8
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
