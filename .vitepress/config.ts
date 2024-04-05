@@ -26,6 +26,13 @@ export default defineConfig({
           { text: 'Engineering', link: '/engineering/' },
           { text: 'Code Review Checklist', link: '/engineering/code-review-checklist' }
         ]
+      },
+      {
+        text: 'Frontend',
+        items: [
+          { text: 'Frontend', link: '/frontend/' },
+          { text: 'Migrate from CRA to Vite', link: '/frontend/migrate-from-cra-to-vite'}
+        ]
       }
     ],
 
