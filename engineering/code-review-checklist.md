@@ -93,7 +93,7 @@
 6. Test the behaviour, not the internal implementation.
 7. Use a mock to simulate/stub complex class structure, methods or async functions.
 
-## Git## General
+## General
 
 1. Does the code work?
 2. Description of the project status is included.
