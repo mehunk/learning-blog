@@ -1,27 +1,27 @@
-# 构建工具从 CRA 迁移到 Vite
+# Migrate from CRA to Vite
 
-## 背景
+## Introduction
 
-时间：2024 年 4 月 4 日
+Date：April 4th, 2024 
 
-### 版本
+### Environment
 
 - Vite: 5.2.8
 - Node.js: 20.12.0
-- vite-tsconfig-paths: 
+- vite-tsconfig-paths: 4.3.2
 - vite-plugin-svgr: 4.2.0
 
-## 安装
+## Install
 
 ```shell
 $ npm install -D vite @vitejs/plugin-react
 ```
 
-## 更新配置和文件
+## Update config and related files
 
-### 创建配置文件
+### Create config files
 
-在根目录创建 `vite.config.ts`。
+Create a config file `vite.config.ts` in root directory.
 
 ```javascript
 import { defineConfig } from 'vite'
@@ -35,43 +35,47 @@ export default defineConfig({
 
 ### index.html
 
-将 `index.html` 移动到根目录。
+Move `index.html` to root directory.
 
-### 确保文件扩展名正确
+### Correct the extension name of each file 
 
-将所有扩展名为 `.js` 或者 `.tsx` 的 React 组件文件全部重命名为 `.jsx` 或者 `.tsx`。
+Rename all files exporting React component with extension name `.js` or `.tsx` to `.jsx` or `.tsx`.
 
-### 设置代理
+### Set proxy
 
-在 `vite.config.ts` 配置文件中配置代理。
+Set proxy in the config file `vite.config.ts`.
 
 ```javascript
-{
+export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://localhost:3001'
     }
   }
-}
+})
 ```
 
-## 安装对应的插件
+## Install corresponding plugins
 
 ### vite-tsconfig-paths
 
-为了确保 Vite 能够按照 TypeScript 的配置解析路径，需要安装 `vite-tsconfig-paths` 插件。
+To ensure that Vite can resolve paths according to TypeScript configuration, we need to install the `vite-tsconfig-paths` plugin.
 
 ### vite-plugin-svgr
 
-为了继续使用类似于 `export { ReactComponent as LogoImage } from "./logo.svg";` 这样的语法来导入 SVG 文件，需要另外安装 `vite-plugin-svgr` 插件。
+To continue using syntax similar to `export { ReactComponent as LogoImage } from "./logo.svg";` to import SVG files, we need to install the `vite-plugin-svgr`plugin additionally.
 
-## 不兼容的库
+## Incompatible libraries
 
 ### jsonwebtoken
 
-因为 `jsonwebtoken` 用到了一些 Node.js 的内置模块，但 vite 并没有将 Node.js 的内置模块暴露在全局下，因此提示找不到某些函数的错误。有多个解决方案，比如将用到的内置模块暴露通过配置暴露在全局中，但是这个解决方案并不合理。最简单的解决方案是直接使用 `jose` 替换原来的模块，虽然 API 并不是完全兼容的，但也相差不多，修改一些就行。
+`jsonwebtoken` uses some of Node.js's built-in modules, but Vite does not expose Node.js's built-in modules globally, so it prompts errors when some functions cannot be found.
 
-## 其他的破坏性变化
+There are several solutions, such as exposing the required built-in modules globally through configuration, but this solution is not reasonable.
+
+The simplest solution is to directly use "jose" to replace `jsonwebtoken`. Although the APIs are not completely compatible, they are similar, and only a few modifications are needed.
+
+## Other break changes
 
 ### \<xxx\> is not defined
 
@@ -79,10 +83,10 @@ export default defineConfig({
 - require is not defined
 - process is not defined
 
-在 `vite.config.ts` 配置文件中定义全局变量。
+Define global variables in the `vite.config.ts` configuration file.
 
 ```javascript
-{
+export default defineConfig({
   define: {
     global: {},
     'process.env': {
@@ -90,12 +94,12 @@ export default defineConfig({
       PUBLIC_URL: ''
     }
   }
-}
+})
 ```
 
-## 替换命令
+## Replace scripts
 
-将原来的 `react-scripts` 替换成 `vite` 相关的命令。
+Replace the previous `react-scripts` with commands related to vite.
 
 ```json
 {
@@ -106,6 +110,6 @@ export default defineConfig({
 }
 ```
 
-## 参考资料
+## Reference
 
 - [Migrating a Create React App project to Vite](https://darekkay.com/blog/create-react-app-to-vite/)

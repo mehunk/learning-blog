@@ -8,7 +8,7 @@
 
 - Vite: 5.2.8
 - Node.js: 20.12.0
-- vite-tsconfig-paths: 
+- vite-tsconfig-paths: 4.3.2
 - vite-plugin-svgr: 4.2.0
 
 ## 安装
@@ -46,13 +46,13 @@ export default defineConfig({
 在 `vite.config.ts` 配置文件中配置代理。
 
 ```javascript
-{
+export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://localhost:3001'
     }
   }
-}
+})
 ```
 
 ## 安装对应的插件
@@ -82,7 +82,7 @@ export default defineConfig({
 在 `vite.config.ts` 配置文件中定义全局变量。
 
 ```javascript
-{
+export default defineConfig({
   define: {
     global: {},
     'process.env': {
@@ -90,7 +90,7 @@ export default defineConfig({
       PUBLIC_URL: ''
     }
   }
-}
+})
 ```
 
 ## 替换命令
