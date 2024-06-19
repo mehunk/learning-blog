@@ -32,7 +32,8 @@ export default defineConfig({
         text: 'Frontend',
         items: [
           { text: 'Frontend', link: '/frontend/' },
-          { text: 'Migrate from CRA to Vite', link: '/frontend/migrate-from-cra-to-vite'}
+          { text: 'Migrate from CRA to Vite', link: '/frontend/migrate-from-cra-to-vite' },
+          { text: 'Server-sent Events', link: '/frontend/server-sent-events' }
         ]
       }
     ],
